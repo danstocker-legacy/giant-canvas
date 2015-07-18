@@ -12,7 +12,6 @@ troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, cl
      */
 
     /**
-     * TODO: Re-render (debounced) on appropriate changes in the canvas.
      * @class
      * @extends shoeshine.Widget
      */

@@ -38,8 +38,7 @@
                 top            : 100,
                 left           : 100,
                 backgroundColor: '#00ffff',
-                backgroundImage: 'logo.png',
-                hue            : 1.1
+                backgroundImage: 'logo.png'
             });
 
     shoeshine.CanvasContainer.create()
@@ -53,4 +52,8 @@
         .setCanvasAttributes({
             height: 200
         });
+
+    teal.setCanvasAttributes({
+        hue: 1.1
+    });
 }());

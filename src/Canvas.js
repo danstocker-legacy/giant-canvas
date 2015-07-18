@@ -31,6 +31,25 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
             EVENT_ATTRIBUTE_CHANGE: 'attribute-change'
         })
         .addPrivateMethods(/** @lends shoeshine.Canvas# */{
+            /**
+             * @param {object} canvasAttributes
+             * @private
+             */
+            _applyImmediateAttributes: function (canvasAttributes) {
+                var that = this,
+                    currentCanvasAttributes = this.canvasAttributes,
+                    backgroundImage = canvasAttributes.backgroundImage;
+
+                // dealing with attributes that require action now
+                if (backgroundImage && backgroundImage !== currentCanvasAttributes.getItem('backgroundImage')) {
+                    backgroundImage.toImageUrl().loadImage()
+                        .then(function (imageUrl, imageElement) {
+                            that.backgroundImageElement = imageElement;
+                            that.triggerSync(that.EVENT_BACKGROUND_LOAD);
+                        });
+                }
+            },
+
             /** @private */
             _applyDimensions: function () {
                 var canvasElement = this.canvasElement,
@@ -139,21 +158,12 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
              * @returns {shoeshine.Canvas}
              */
             setCanvasAttributes: function (canvasAttributes) {
-                var that = this,
-                    currentCanvasAttributes = this.canvasAttributes,
-                    backgroundImage = canvasAttributes.backgroundImage;
-
-                // dealing with attributes that require action now
-                if (backgroundImage && backgroundImage !== currentCanvasAttributes.getItem('backgroundImage')) {
-                    backgroundImage.toImageUrl().loadImage()
-                        .then(function (imageUrl, imageElement) {
-                            that.backgroundImageElement = imageElement;
-                            that.triggerSync(that.EVENT_BACKGROUND_LOAD);
-                        });
-                }
+                // applying attributes that must be set immediately
+                this._applyImmediateAttributes(canvasAttributes);
 
                 // merging new / changed attributes
-                var attributeNames = Object.keys(canvasAttributes),
+                var currentCanvasAttributes = this.canvasAttributes,
+                    attributeNames = Object.keys(canvasAttributes),
                     i, attributeName, attributeValue,
                     hasChanged = false;
 
