@@ -26,6 +26,20 @@ troop.postpone(shoeshine, 'CanvasUtils', function () {
                 ctx.restore();
 
                 return this;
+            },
+
+            /**
+             * @param {shoeshine.Canvas} canvas
+             * @param {HTMLElement} imageElement
+             * @returns {shoeshine.CanvasUtils}
+             */
+            setImage: function (canvas, imageElement) {
+                var canvasElement = canvas.canvasElement,
+                    ctx = canvasElement.getContext('2d');
+
+                ctx.drawImage(imageElement, 0, 0, imageElement.width, imageElement.height);
+
+                return this;
             }
         });
 });

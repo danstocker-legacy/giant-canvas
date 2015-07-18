@@ -17,7 +17,8 @@
                     width          : 100,
                     top            : 10,
                     left           : 20,
-                    backgroundColor: '#00ff00'
+                    backgroundColor: '#00ff00',
+                    backgroundImage: 'logo.png'
                 })
                 .addChild(shoeshine.Canvas.create()
                     .setChildName('blue')

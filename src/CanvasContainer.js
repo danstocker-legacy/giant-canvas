@@ -12,6 +12,7 @@ troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, cl
      */
 
     /**
+     * TODO: Re-render (debounced) on appropriate changes in the canvas.
      * @class
      * @extends shoeshine.Widget
      */
@@ -41,6 +42,7 @@ troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, cl
             },
 
             /**
+             * TODO: Re-subscribe on replacing the canvas.
              * @param {shoeshine.Canvas} canvas
              * @returns {shoeshine.CanvasContainer}
              */

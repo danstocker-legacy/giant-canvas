@@ -14,6 +14,8 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
      */
 
     /**
+     * TODO: Make evented. Event path = 'canvas' + lineage.
+     * TODO: Trigger events on attribute changes and async operations (esp. image load).
      * @class
      * @extends troop.Base
      * @extends shoeshine.Progenitor
@@ -37,12 +39,16 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
             },
 
             /** @private */
-            _applyBackground: function () {
+            _renderBackground: function () {
                 var canvasAttributes = this.canvasAttributes,
                     backgroundColor = canvasAttributes.getItem('backgroundColor');
 
                 if (backgroundColor) {
                     shoeshine.CanvasUtils.fillWithColor(this, backgroundColor);
+                }
+
+                if (this.backgroundImageElement) {
+                    shoeshine.CanvasUtils.setImage(this, this.backgroundImageElement);
                 }
             },
 
@@ -50,7 +56,7 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
              * @param {shoeshine.Canvas} childCanvas
              * @private
              */
-            _drawChildCanvas: function (childCanvas) {
+            _renderChildCanvas: function (childCanvas) {
                 var childPosition = childCanvas.getRelativePosition(),
                     childElement = childCanvas.canvasElement,
                     canvasElement = this.canvasElement,
@@ -75,6 +81,11 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
                  * @type {sntls.Collection}
                  */
                 this.canvasAttributes = sntls.Collection.create();
+
+                /**
+                 * @type {HTMLElement}
+                 */
+                this.backgroundImageElement = undefined;
             },
 
             /**
@@ -82,7 +93,18 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
              * @returns {shoeshine.Canvas}
              */
             setCanvasAttributes: function (canvasAttributes) {
+                var that = this,
+                    backgroundImage = canvasAttributes.backgroundImage;
+
+                if (backgroundImage !== this.canvasAttributes.getItem('backgroundImage')) {
+                    backgroundImage.toImageUrl().loadImage()
+                        .then(function (imageUrl, imageElement) {
+                            that.backgroundImageElement = imageElement;
+                        });
+                }
+
                 this.canvasAttributes = this.canvasAttributes.mergeWith(sntls.Collection.create(canvasAttributes));
+
                 return this;
             },
 
@@ -136,11 +158,11 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
                 console.log("rendering canvas", this.childName);
 
                 this._applyDimensions();
-                this._applyBackground();
+                this._renderBackground();
 
                 this.children
                     .callOnEachItem('render')
-                    .passEachItemTo(this._drawChildCanvas, this);
+                    .passEachItemTo(this._renderChildCanvas, this);
 
                 return this;
             }
