@@ -17,7 +17,9 @@
                 top            : 10,
                 left           : 20,
                 backgroundColor: '#00ff00',
-                backgroundImage: 'logo.png'
+                backgroundImage: 'logo.png',
+                overlayColor   : [255, 0, 0],
+                overlayAlpha   : 0.2
             }),
         blue = shoeshine.Canvas.create()
             .setChildName('blue')
@@ -35,7 +37,9 @@
                 width          : 75,
                 top            : 100,
                 left           : 100,
-                backgroundColor: '#00ffff'
+                backgroundColor: '#00ffff',
+                backgroundImage: 'logo.png',
+                hue            : 1.1
             });
 
     shoeshine.CanvasContainer.create()

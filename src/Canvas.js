@@ -57,7 +57,7 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
                 }
 
                 if (this.backgroundImageElement) {
-                    shoeshine.CanvasUtils.setImage(this, this.backgroundImageElement);
+                    shoeshine.CanvasUtils.drawImage(this, this.backgroundImageElement);
                 }
             },
 
@@ -72,6 +72,22 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
                     ctx = canvasElement.getContext('2d');
 
                 ctx.drawImage(childElement, childPosition.left, childPosition.top);
+            },
+
+            /** @private */
+            _applyFilters: function () {
+                var canvasAttributes = this.canvasAttributes,
+                    hue = canvasAttributes.getItem('hue'),
+                    overlayColor = canvasAttributes.getItem('overlayColor'),
+                    overlayAlpha = canvasAttributes.getItem('overlayAlpha');
+
+                if (hue) {
+                    shoeshine.CanvasUtils.makeMonochrome(this, hue);
+                }
+
+                if (overlayColor) {
+                    shoeshine.CanvasUtils.addColorOverlay(this, overlayColor, overlayAlpha || 0);
+                }
             }
         })
         .addMethods(/** @lends shoeshine.Canvas# */{
@@ -210,6 +226,8 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
                 this.children
                     .callOnEachItem('render')
                     .passEachItemTo(this._renderChildCanvas, this);
+
+                this._applyFilters();
 
                 return this;
             }
