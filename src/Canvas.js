@@ -51,8 +51,12 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
              * @private
              */
             _drawChildCanvas: function (childCanvas) {
-                var ctx = this.canvasElement.getContext('2d');
-                ctx.drawImage(childCanvas.canvasElement, 0, 0);
+                var childPosition = childCanvas.getRelativePosition(),
+                    childElement = childCanvas.canvasElement,
+                    canvasElement = this.canvasElement,
+                    ctx = canvasElement.getContext('2d');
+
+                ctx.drawImage(childElement, childPosition.left, childPosition.top);
             }
         })
         .addMethods(/** @lends shoeshine.Canvas# */{
@@ -83,10 +87,53 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
             },
 
             /**
+             * Retrieves the canvas' position relative to the parent Canvas instance.
+             * @returns {{top: number, left: number}}
+             */
+            getRelativePosition: function () {
+                var parentElement = this.parent.canvasElement,
+                    canvasElement = this.canvasElement,
+                    canvasAttributes = this.canvasAttributes,
+                    top = canvasAttributes.getItem('top'),
+                    left = canvasAttributes.getItem('left');
+
+                return {
+                    top : top === 'center' ?
+                        (parentElement.height - canvasElement.height) / 2 :
+                        top || 0,
+                    left: left === 'center' ?
+                        (parentElement.width - canvasElement.width) / 2 :
+                        left || 0
+                };
+            },
+
+            /**
+             * Retrieves the canvas' position relative to the CanvasContainer.
+             * @returns {{top: number, left: number}}
+             */
+            getAbsolutePosition: function () {
+                var result = {
+                        top : 0,
+                        left: 0
+                    },
+                    canvas = this,
+                    relativePosition;
+
+                while (canvas.parent) {
+                    relativePosition = canvas.getRelativePosition();
+                    result.top += relativePosition.top;
+                    result.left += relativePosition.left;
+                    canvas = canvas.parent;
+                }
+
+                return result;
+            },
+
+            /**
              * @returns {shoeshine.Canvas}
              */
             render: function () {
-                console.log("rendering canvas", this.instanceId);
+                console.log("rendering canvas", this.childName);
 
                 this._applyDimensions();
                 this._applyBackground();
