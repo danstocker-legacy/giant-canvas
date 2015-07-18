@@ -15,6 +15,7 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
      */
 
     /**
+     * TODO: Allow height / width to be: parent.
      * @class
      * @extends troop.Base
      * @extends evan.Evented
@@ -40,7 +41,6 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
                     currentCanvasAttributes = this.canvasAttributes,
                     backgroundImage = canvasAttributes.backgroundImage;
 
-                // dealing with attributes that require action now
                 if (backgroundImage && backgroundImage !== currentCanvasAttributes.getItem('backgroundImage')) {
                     backgroundImage.toImageUrl().loadImage()
                         .then(function (imageUrl, imageElement) {
@@ -54,29 +54,35 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
             _applyDimensions: function () {
                 var canvasElement = this.canvasElement,
                     canvasAttributes = this.canvasAttributes,
+                    backgroundImageElement = this.backgroundImageElement,
                     width = canvasAttributes.getItem('width'),
                     height = canvasAttributes.getItem('height');
 
                 if (width) {
-                    canvasElement.width = width;
+                    canvasElement.width = (backgroundImageElement && width === 'background') ?
+                        backgroundImageElement.width :
+                        width;
                 }
 
                 if (height) {
-                    canvasElement.height = height;
+                    canvasElement.height = (backgroundImageElement && height === 'background') ?
+                        backgroundImageElement.height :
+                        height;
                 }
             },
 
             /** @private */
             _renderBackground: function () {
                 var canvasAttributes = this.canvasAttributes,
+                    backgroundImageElement = this.backgroundImageElement,
                     backgroundColor = canvasAttributes.getItem('backgroundColor');
 
                 if (backgroundColor) {
                     candystore.CanvasUtils.fillWithColor(this, backgroundColor);
                 }
 
-                if (this.backgroundImageElement) {
-                    candystore.CanvasUtils.drawImage(this, this.backgroundImageElement);
+                if (backgroundImageElement) {
+                    candystore.CanvasUtils.drawImage(this, backgroundImageElement);
                 }
             },
 

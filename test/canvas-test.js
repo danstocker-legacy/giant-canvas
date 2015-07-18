@@ -5,8 +5,8 @@
     var red = candystore.Canvas.create()
             .setChildName('red')
             .setCanvasAttributes({
-                height         : 200,
-                width          : 200,
+                height         : 300,
+                width          : 300,
                 backgroundColor: '#ff0000'
             }),
         green = candystore.Canvas.create()
@@ -33,10 +33,9 @@
         teal = candystore.Canvas.create()
             .setChildName('teal')
             .setCanvasAttributes({
-                height         : 75,
-                width          : 75,
-                top            : 100,
-                left           : 100,
+                height         : 'background',
+                width          : 'background',
+                left           : 150,
                 backgroundColor: '#00ffff',
                 backgroundImage: 'logo.png'
             });
@@ -50,7 +49,7 @@
     green
         .addChild(blue)
         .setCanvasAttributes({
-            height: 200
+            height: 150
         });
 
     teal.setCanvasAttributes({

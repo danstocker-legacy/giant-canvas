@@ -14,42 +14,43 @@ troop.postpone(candystore, 'CanvasUtils', function () {
             /**
              * @param {candystore.Canvas} canvas
              * @param {string} rgb
-             * @returns {candystore.CanvasUtils}
              */
             fillWithColor: function (canvas, rgb) {
                 var canvasElement = canvas.canvasElement,
+                    ctx;
+
+                if (canvasElement.width && canvasElement.height) {
                     ctx = canvasElement.getContext('2d');
-
-                ctx.save();
-                ctx.fillStyle = rgb;
-                ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-                ctx.restore();
-
-                return this;
+                    ctx.save();
+                    ctx.fillStyle = rgb;
+                    ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+                    ctx.restore();
+                }
             },
 
             /**
              * @param {candystore.Canvas} canvas
              * @param {HTMLElement} imageElement
-             * @returns {candystore.CanvasUtils}
              */
             drawImage: function (canvas, imageElement) {
                 var canvasElement = canvas.canvasElement,
                     ctx = canvasElement.getContext('2d');
 
                 ctx.drawImage(imageElement, 0, 0, imageElement.width, imageElement.height);
-
-                return this;
             },
 
             /**
              * @param {candystore.Canvas} canvas
              * @param {number} hue
-             * @returns {candystore.CanvasUtils}
              */
             makeMonochrome: function (canvas, hue) {
-                var canvasElement = canvas.canvasElement,
-                    ctx = canvasElement.getContext('2d'),
+                var canvasElement = canvas.canvasElement;
+
+                if (!canvasElement.width || !canvasElement.height) {
+                    return;
+                }
+
+                var ctx = canvasElement.getContext('2d'),
                     imageData = ctx.getImageData(0, 0, canvasElement.width, canvasElement.height),
                     imageDataBuffer = imageData.data,
                     hsv, rgb;
@@ -65,15 +66,12 @@ troop.postpone(candystore, 'CanvasUtils', function () {
                 }
 
                 ctx.putImageData(imageData, 0, 0);
-
-                return this;
             },
 
             /**
              * @param {candystore.Canvas} canvas
              * @param {number[]} overlayRgb
              * @param {number} alpha
-             * @returns {candystore.CanvasUtils}
              */
             addColorOverlay: function (canvas, overlayRgb, alpha) {
                 var canvasElement = canvas.canvasElement,
@@ -88,8 +86,6 @@ troop.postpone(candystore, 'CanvasUtils', function () {
                 }
 
                 ctx.putImageData(imageData, 0, 0);
-
-                return this;
             }
         });
 });
