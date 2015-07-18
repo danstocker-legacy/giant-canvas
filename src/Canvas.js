@@ -15,7 +15,6 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
      */
 
     /**
-     * TODO: Allow height / width to be: parent.
      * @class
      * @extends troop.Base
      * @extends evan.Evented
@@ -56,18 +55,35 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
                     canvasAttributes = this.canvasAttributes,
                     backgroundImageElement = this.backgroundImageElement,
                     width = canvasAttributes.getItem('width'),
-                    height = canvasAttributes.getItem('height');
+                    height = canvasAttributes.getItem('height'),
+                    parent = this.parent;
 
-                if (width) {
-                    canvasElement.width = (backgroundImageElement && width === 'background') ?
-                        backgroundImageElement.width :
-                        width;
+                switch (true) {
+                case backgroundImageElement && width === 'background':
+                    canvasElement.width = backgroundImageElement.width;
+                    break;
+
+                case parent && width === 'parent':
+                    canvasElement.width = parent.canvasElement.width;
+                    break;
+
+                case !!width:
+                    canvasElement.width = width;
+                    break;
                 }
 
-                if (height) {
-                    canvasElement.height = (backgroundImageElement && height === 'background') ?
-                        backgroundImageElement.height :
-                        height;
+                switch (true) {
+                case backgroundImageElement && height === 'background':
+                    canvasElement.height = backgroundImageElement.height;
+                    break;
+
+                case parent && height === 'parent':
+                    canvasElement.height = parent.canvasElement.height;
+                    break;
+
+                case !!width:
+                    canvasElement.height = height;
+                    break;
                 }
             },
 

@@ -25,7 +25,7 @@
             .setChildName('blue')
             .setCanvasAttributes({
                 height         : 50,
-                width          : 50,
+                width          : 'parent',
                 top            : 'center',
                 left           : 'center',
                 backgroundColor: '#0000ff'
