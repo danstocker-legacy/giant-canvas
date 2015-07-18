@@ -1,22 +1,22 @@
-/*global dessert, troop, sntls, evan, shoeshine */
-troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, className) {
+/*global dessert, troop, sntls, evan, candystore, shoeshine */
+troop.postpone(candystore, 'CanvasContainer', function (ns, className) {
     "use strict";
 
     var base = shoeshine.Widget,
         self = base.extend(className);
 
     /**
-     * @name shoeshine.CanvasContainer.create
+     * @name candystore.CanvasContainer.create
      * @function
-     * @returns {shoeshine.CanvasContainer}
+     * @returns {candystore.CanvasContainer}
      */
 
     /**
      * @class
      * @extends shoeshine.Widget
      */
-    shoeshine.CanvasContainer = self
-        .addMethods(/** @lends shoeshine.CanvasContainer# */{
+    candystore.CanvasContainer = self
+        .addMethods(/** @lends candystore.CanvasContainer# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
@@ -27,7 +27,7 @@ troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, cl
                     'onAttributeChange');
 
                 /**
-                 * @type {shoeshine.Canvas}
+                 * @type {candystore.Canvas}
                  */
                 this.canvas = undefined;
 
@@ -51,8 +51,8 @@ troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, cl
             },
 
             /**
-             * @param {shoeshine.Canvas} canvas
-             * @returns {shoeshine.CanvasContainer}
+             * @param {candystore.Canvas} canvas
+             * @returns {candystore.CanvasContainer}
              */
             setCanvas: function (canvas) {
                 var oldCanvas = this.canvas;
@@ -61,13 +61,13 @@ troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, cl
 
                 if (oldCanvas) {
                     oldCanvas
-                        .unsubscribeFrom(shoeshine.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
-                        .unsubscribeFrom(shoeshine.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
+                        .unsubscribeFrom(candystore.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
+                        .unsubscribeFrom(candystore.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
                 }
 
                 canvas
-                    .subscribeTo(shoeshine.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
-                    .subscribeTo(shoeshine.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
+                    .subscribeTo(candystore.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
+                    .subscribeTo(candystore.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
 
                 if (this.getElement()) {
                     this.reRender();

@@ -1,5 +1,5 @@
-/*global dessert, troop, sntls, evan, shoeshine */
-troop.postpone(shoeshine, 'ColorUtils', function () {
+/*global dessert, troop, sntls, evan, candystore */
+troop.postpone(candystore, 'ColorUtils', function () {
     "use strict";
 
     var base = troop.Base,
@@ -10,8 +10,8 @@ troop.postpone(shoeshine, 'ColorUtils', function () {
      * @class
      * @extends troop.Base
      */
-    shoeshine.ColorUtils = self
-        .addMethods(/** @lends shoeshine.ColorUtils */{
+    candystore.ColorUtils = self
+        .addMethods(/** @lends candystore.ColorUtils */{
             /**
              * Converts an RGB color value to HSV. Conversion formula
              * adapted from http://en.wikipedia.org/wiki/HSV_color_space.

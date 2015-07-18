@@ -1,5 +1,5 @@
-/*global dessert, troop, sntls, evan, shoeshine */
-troop.postpone(shoeshine, 'Canvas', function (ns, className) {
+/*global dessert, troop, sntls, evan, candystore, shoeshine */
+troop.postpone(candystore, 'Canvas', function (ns, className) {
     "use strict";
 
     var base = troop.Base,
@@ -9,9 +9,9 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
             .extend(className);
 
     /**
-     * @name shoeshine.Canvas.create
+     * @name candystore.Canvas.create
      * @function
-     * @returns {shoeshine.Canvas}
+     * @returns {candystore.Canvas}
      */
 
     /**
@@ -20,17 +20,17 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
      * @extends evan.Evented
      * @extends shoeshine.Progenitor
      */
-    shoeshine.Canvas = self
+    candystore.Canvas = self
         .setEventSpace(shoeshine.widgetEventSpace)
         .setEventPath('canvas'.toPath())
-        .addConstants(/** @lends shoeshine.Canvas */{
+        .addConstants(/** @lends candystore.Canvas */{
             /** @constant */
             EVENT_BACKGROUND_LOAD: 'background-load',
 
             /** @constant */
             EVENT_ATTRIBUTE_CHANGE: 'attribute-change'
         })
-        .addPrivateMethods(/** @lends shoeshine.Canvas# */{
+        .addPrivateMethods(/** @lends candystore.Canvas# */{
             /**
              * @param {object} canvasAttributes
              * @private
@@ -72,16 +72,16 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
                     backgroundColor = canvasAttributes.getItem('backgroundColor');
 
                 if (backgroundColor) {
-                    shoeshine.CanvasUtils.fillWithColor(this, backgroundColor);
+                    candystore.CanvasUtils.fillWithColor(this, backgroundColor);
                 }
 
                 if (this.backgroundImageElement) {
-                    shoeshine.CanvasUtils.drawImage(this, this.backgroundImageElement);
+                    candystore.CanvasUtils.drawImage(this, this.backgroundImageElement);
                 }
             },
 
             /**
-             * @param {shoeshine.Canvas} childCanvas
+             * @param {candystore.Canvas} childCanvas
              * @private
              */
             _renderChildCanvas: function (childCanvas) {
@@ -101,15 +101,15 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
                     overlayAlpha = canvasAttributes.getItem('overlayAlpha');
 
                 if (hue) {
-                    shoeshine.CanvasUtils.makeMonochrome(this, hue);
+                    candystore.CanvasUtils.makeMonochrome(this, hue);
                 }
 
                 if (overlayColor) {
-                    shoeshine.CanvasUtils.addColorOverlay(this, overlayColor, overlayAlpha || 0);
+                    candystore.CanvasUtils.addColorOverlay(this, overlayColor, overlayAlpha || 0);
                 }
             }
         })
-        .addMethods(/** @lends shoeshine.Canvas# */{
+        .addMethods(/** @lends candystore.Canvas# */{
             /**
              * @ignore
              */
@@ -135,8 +135,8 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
             },
 
             /**
-             * @param {shoeshine.Canvas} parent
-             * @returns {shoeshine.Canvas}
+             * @param {candystore.Canvas} parent
+             * @returns {candystore.Canvas}
              */
             addToParent: function (parent) {
                 shoeshine.Progenitor.addToParent.call(this, parent);
@@ -145,7 +145,7 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
             },
 
             /**
-             * @returns {shoeshine.Canvas}
+             * @returns {candystore.Canvas}
              */
             removeFromParent: function () {
                 shoeshine.Progenitor.removeFromParent.call(this);
@@ -155,7 +155,7 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
 
             /**
              * @param {object} canvasAttributes
-             * @returns {shoeshine.Canvas}
+             * @returns {candystore.Canvas}
              */
             setCanvasAttributes: function (canvasAttributes) {
                 // applying attributes that must be set immediately
@@ -227,7 +227,7 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
             },
 
             /**
-             * @returns {shoeshine.Canvas}
+             * @returns {candystore.Canvas}
              */
             render: function () {
                 this._applyDimensions();

@@ -1,5 +1,5 @@
 {
-    "name"           : "shoeshine-canvas",
+    "name"           : "candystore-canvas",
     "version"        : "0.1.0",
     "description"    : "Canvas widgets",
     "keywords"       : [
@@ -11,9 +11,11 @@
     "license"        : "MIT",
     "repository"     : {
         "type": "git",
-        "url" : "git://github.com/danstocker/shoeshine-canvas.git"
+        "url" : "git://github.com/danstocker/candystore-canvas.git"
     },
     "dependencies"   : {
+        "bookworm"  : "0.4.0",
+        "candystore": "~0.9.0",
         "dessert"   : "~0.3.2",
         "evan"      : "~0.8.0",
         "jquery"    : "~2.1.0",
@@ -38,8 +40,7 @@
         "phil"                : "~0.2.3"
     },
     "files"          : [
-        "candystore.js",
-        "candystore.css"
+        "candystore-canvas.js"
     ],
-    "main"           : "candystore.js"
+    "main"           : "candystore-canvas.js"
 }

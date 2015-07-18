@@ -1,6 +1,6 @@
 /*global require */
 /** @namespace */
-var shoeshine = shoeshine || require('shoeshine');
+var candystore = candystore || require('candystore');
 
 /**
  * @class

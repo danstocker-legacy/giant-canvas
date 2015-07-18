@@ -1,15 +1,15 @@
-/*global shoeshine */
+/*global candystore */
 (function () {
     "use strict";
 
-    var red = shoeshine.Canvas.create()
+    var red = candystore.Canvas.create()
             .setChildName('red')
             .setCanvasAttributes({
                 height         : 200,
                 width          : 200,
                 backgroundColor: '#ff0000'
             }),
-        green = shoeshine.Canvas.create()
+        green = candystore.Canvas.create()
             .setChildName('green')
             .setCanvasAttributes({
                 height         : 100,
@@ -21,7 +21,7 @@
                 overlayColor   : [255, 0, 0],
                 overlayAlpha   : 0.2
             }),
-        blue = shoeshine.Canvas.create()
+        blue = candystore.Canvas.create()
             .setChildName('blue')
             .setCanvasAttributes({
                 height         : 50,
@@ -30,7 +30,7 @@
                 left           : 'center',
                 backgroundColor: '#0000ff'
             }),
-        teal = shoeshine.Canvas.create()
+        teal = candystore.Canvas.create()
             .setChildName('teal')
             .setCanvasAttributes({
                 height         : 75,
@@ -41,7 +41,7 @@
                 backgroundImage: 'logo.png'
             });
 
-    shoeshine.CanvasContainer.create()
+    candystore.CanvasContainer.create()
         .renderInto(document.body)
         .setCanvas(red
             .addChild(green)

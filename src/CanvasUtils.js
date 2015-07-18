@@ -1,5 +1,5 @@
-/*global dessert, troop, sntls, shoeshine */
-troop.postpone(shoeshine, 'CanvasUtils', function () {
+/*global dessert, troop, sntls, candystore */
+troop.postpone(candystore, 'CanvasUtils', function () {
     "use strict";
 
     var base = troop.Base,
@@ -9,12 +9,12 @@ troop.postpone(shoeshine, 'CanvasUtils', function () {
      * @class
      * @extends troop.Base
      */
-    shoeshine.CanvasUtils = self
-        .addMethods(/** @lends shoeshine.CanvasUtils */{
+    candystore.CanvasUtils = self
+        .addMethods(/** @lends candystore.CanvasUtils */{
             /**
-             * @param {shoeshine.Canvas} canvas
+             * @param {candystore.Canvas} canvas
              * @param {string} rgb
-             * @returns {shoeshine.CanvasUtils}
+             * @returns {candystore.CanvasUtils}
              */
             fillWithColor: function (canvas, rgb) {
                 var canvasElement = canvas.canvasElement,
@@ -29,9 +29,9 @@ troop.postpone(shoeshine, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {shoeshine.Canvas} canvas
+             * @param {candystore.Canvas} canvas
              * @param {HTMLElement} imageElement
-             * @returns {shoeshine.CanvasUtils}
+             * @returns {candystore.CanvasUtils}
              */
             drawImage: function (canvas, imageElement) {
                 var canvasElement = canvas.canvasElement,
@@ -43,9 +43,9 @@ troop.postpone(shoeshine, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {shoeshine.Canvas} canvas
+             * @param {candystore.Canvas} canvas
              * @param {number} hue
-             * @returns {shoeshine.CanvasUtils}
+             * @returns {candystore.CanvasUtils}
              */
             makeMonochrome: function (canvas, hue) {
                 var canvasElement = canvas.canvasElement,
@@ -56,8 +56,8 @@ troop.postpone(shoeshine, 'CanvasUtils', function () {
 
                 for (var i = 0; i < imageDataBuffer.length; i += 4) {
                     // setting hue to specified value on all pixels
-                    hsv = shoeshine.ColorUtils.rgbToHsv(imageDataBuffer[i], imageDataBuffer[i + 1], imageDataBuffer[i + 2]);
-                    rgb = shoeshine.ColorUtils.hsvToRgb(hue, hsv.s, hsv.v);
+                    hsv = candystore.ColorUtils.rgbToHsv(imageDataBuffer[i], imageDataBuffer[i + 1], imageDataBuffer[i + 2]);
+                    rgb = candystore.ColorUtils.hsvToRgb(hue, hsv.s, hsv.v);
 
                     imageDataBuffer[i] = rgb.r;
                     imageDataBuffer[i + 1] = rgb.g;
@@ -70,10 +70,10 @@ troop.postpone(shoeshine, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {shoeshine.Canvas} canvas
+             * @param {candystore.Canvas} canvas
              * @param {number[]} overlayRgb
              * @param {number} alpha
-             * @returns {shoeshine.CanvasUtils}
+             * @returns {candystore.CanvasUtils}
              */
             addColorOverlay: function (canvas, overlayRgb, alpha) {
                 var canvasElement = canvas.canvasElement,

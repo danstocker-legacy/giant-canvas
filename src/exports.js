@@ -1,7 +1,7 @@
 /**
  * Library exports
  */
-/*global shoeshine, module */
+/*global candystore, module */
 if (typeof module === 'object') {
-    module.exports = shoeshine;
+    module.exports = candystore;
 }
