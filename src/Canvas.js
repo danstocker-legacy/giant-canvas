@@ -1,9 +1,10 @@
-/*global dessert, troop, sntls, shoeshine */
+/*global dessert, troop, sntls, evan, shoeshine */
 troop.postpone(shoeshine, 'Canvas', function (ns, className) {
     "use strict";
 
     var base = troop.Base,
         self = base.extend()
+            .addTrait(evan.Evented)
             .addTrait(shoeshine.Progenitor)
             .extend(className);
 
@@ -14,13 +15,21 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
      */
 
     /**
-     * TODO: Make evented. Event path = 'canvas' + lineage.
-     * TODO: Trigger events on attribute changes and async operations (esp. image load).
      * @class
      * @extends troop.Base
+     * @extends evan.Evented
      * @extends shoeshine.Progenitor
      */
     shoeshine.Canvas = self
+        .setEventSpace(shoeshine.widgetEventSpace)
+        .setEventPath('canvas'.toPath())
+        .addConstants(/** @lends shoeshine.Canvas */{
+            /** @constant */
+            EVENT_BACKGROUND_LOAD: 'background-load',
+
+            /** @constant */
+            EVENT_ATTRIBUTE_CHANGE: 'attribute-change'
+        })
         .addPrivateMethods(/** @lends shoeshine.Canvas# */{
             /** @private */
             _applyDimensions: function () {
@@ -86,6 +95,27 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
                  * @type {HTMLElement}
                  */
                 this.backgroundImageElement = undefined;
+
+                this.setEventPath([String(this.instanceId)].toPath().prepend(self.eventPath));
+            },
+
+            /**
+             * @param {shoeshine.Canvas} parent
+             * @returns {shoeshine.Canvas}
+             */
+            addToParent: function (parent) {
+                shoeshine.Progenitor.addToParent.call(this, parent);
+                this.setEventPath(this.getLineage().prepend(self.eventPath));
+                return this;
+            },
+
+            /**
+             * @returns {shoeshine.Canvas}
+             */
+            removeFromParent: function () {
+                shoeshine.Progenitor.removeFromParent.call(this);
+                this.setEventPath([String(this.instanceId)].toPath().prepend(self.eventPath));
+                return this;
             },
 
             /**
@@ -94,16 +124,35 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
              */
             setCanvasAttributes: function (canvasAttributes) {
                 var that = this,
+                    currentCanvasAttributes = this.canvasAttributes,
                     backgroundImage = canvasAttributes.backgroundImage;
 
-                if (backgroundImage !== this.canvasAttributes.getItem('backgroundImage')) {
+                // dealing with attributes that require action now
+                if (backgroundImage && backgroundImage !== currentCanvasAttributes.getItem('backgroundImage')) {
                     backgroundImage.toImageUrl().loadImage()
                         .then(function (imageUrl, imageElement) {
                             that.backgroundImageElement = imageElement;
+                            that.triggerSync(that.EVENT_BACKGROUND_LOAD);
                         });
                 }
 
-                this.canvasAttributes = this.canvasAttributes.mergeWith(sntls.Collection.create(canvasAttributes));
+                // merging new / changed attributes
+                var attributeNames = Object.keys(canvasAttributes),
+                    i, attributeName, attributeValue,
+                    hasChanged = false;
+
+                for (i = 0; i < attributeNames.length; i++) {
+                    attributeName = attributeNames[i];
+                    attributeValue = canvasAttributes[attributeName];
+                    if (attributeValue !== currentCanvasAttributes.getItem(attributeName)) {
+                        currentCanvasAttributes.setItem(attributeName, attributeValue);
+                        hasChanged = true;
+                    }
+                }
+
+                if (hasChanged) {
+                    this.triggerSync(this.EVENT_ATTRIBUTE_CHANGE);
+                }
 
                 return this;
             },
@@ -155,8 +204,6 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
              * @returns {shoeshine.Canvas}
              */
             render: function () {
-                console.log("rendering canvas", this.childName);
-
                 this._applyDimensions();
                 this._renderBackground();
 

@@ -1,4 +1,4 @@
-/*global dessert, troop, sntls, shoeshine, candystore, app */
+/*global dessert, troop, sntls, evan, shoeshine */
 troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, className) {
     "use strict";
 
@@ -22,10 +22,20 @@ troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, cl
             init: function () {
                 base.init.call(this);
 
+                this.elevateMethods(
+                    'reRender',
+                    'onBackgroundLoad',
+                    'onAttributeChange');
+
                 /**
                  * @type {shoeshine.Canvas}
                  */
                 this.canvas = undefined;
+
+                /**
+                 * @type {sntls.Debouncer}
+                 */
+                this.reRenderDebouncer = this.reRender.toDebouncer();
             },
 
             /** @ignore */
@@ -42,18 +52,49 @@ troop.postpone(shoeshine, 'CanvasContainer', function (/**shoeshine*/widgets, cl
             },
 
             /**
-             * TODO: Re-subscribe on replacing the canvas.
              * @param {shoeshine.Canvas} canvas
              * @returns {shoeshine.CanvasContainer}
              */
             setCanvas: function (canvas) {
+                var oldCanvas = this.canvas;
+
                 this.canvas = canvas;
+
+                if (oldCanvas) {
+                    oldCanvas
+                        .unsubscribeFrom(shoeshine.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
+                        .unsubscribeFrom(shoeshine.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
+                }
+
+                canvas
+                    .subscribeTo(shoeshine.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
+                    .subscribeTo(shoeshine.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
 
                 if (this.getElement()) {
                     this.reRender();
                 }
 
                 return this;
+            },
+
+            /**
+             * @param {evan.Event} event
+             * @ignore
+             */
+            onBackgroundLoad: function (event) {
+                var link = evan.pushOriginalEvent(event);
+                this.reRenderDebouncer.runDebounced(16);
+                link.unLink();
+            },
+
+            /**
+             * @param {evan.Event} event
+             * @ignore
+             */
+            onAttributeChange: function (event) {
+                var link = evan.pushOriginalEvent(event);
+                this.reRenderDebouncer.runDebounced(16);
+                link.unLink();
             }
         });
 });
