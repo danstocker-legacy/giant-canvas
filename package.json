@@ -1,0 +1,44 @@
+{
+    "name"           : "shoeshine-canvas",
+    "version"        : "0.1.0",
+    "description"    : "Canvas widgets",
+    "keywords"       : [
+        "widgets",
+        "canvas"
+    ],
+    "author"         : "Dan Stocker <dan@kwaia.com>",
+    "copyright"      : "Copyright (c) 2015 Dan Stocker",
+    "license"        : "MIT",
+    "repository"     : {
+        "type": "git",
+        "url" : "git://github.com/danstocker/shoeshine-canvas.git"
+    },
+    "dependencies"   : {
+        "dessert"   : "~0.3.2",
+        "evan"      : "~0.8.0",
+        "jquery"    : "~2.1.0",
+        "rubberband": "~0.2.0",
+        "shoeshine" : "~0.3.0",
+        "sntls"     : "~0.21.0",
+        "troop"     : "~0.9.0",
+        "q"         : "^1.4.0"
+    },
+    "devDependencies": {
+        "QUnitAdapter"        : "https://dl.dropboxusercontent.com/u/9258903/packages/QUnitAdapter-0.1.0.tgz",
+        "common-gruntfile"    : "git://github.com/danstocker/common-gruntfile.git#0.1.5",
+        "grunt"               : "~0.4.5",
+        "grunt-contrib-concat": "~0.5.1",
+        "grunt-contrib-copy"  : "~0.8.0",
+        "grunt-contrib-jshint": "~0.11.1",
+        "grunt-jsdoc"         : "~0.3.3",
+        "grunt-jstestdriver"  : "git://github.com/danstocker/grunt-jstestdriver.git",
+        "grunt-regex-replace" : "~0.2.6",
+        "grunt-yui-compressor": "~0.4.0",
+        "phil"                : "~0.2.3"
+    },
+    "files"          : [
+        "candystore.js",
+        "candystore.css"
+    ],
+    "main"           : "candystore.js"
+}
