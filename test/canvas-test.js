@@ -4,12 +4,16 @@
 
     shoeshine.CanvasContainer.create()
         .setCanvas(shoeshine.Canvas.create()
-            .setWidth(200)
-            .setHeight(200)
-            .fillWithColor('#ff0000')
+            .setCanvasAttributes({
+                height         : 200,
+                width          : 200,
+                backgroundColor: '#ff0000'
+            })
             .addChild(shoeshine.Canvas.create()
-                .setWidth(100)
-                .setHeight(100)
-                .fillWithColor('#00ff00')))
+                .setCanvasAttributes({
+                    height         : 100,
+                    width          : 100,
+                    backgroundColor: '#00ff00'
+                })))
         .renderInto(document.body);
 }());

@@ -20,13 +20,38 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
      */
     shoeshine.Canvas = self
         .addPrivateMethods(/** @lends shoeshine.Canvas# */{
+            /** @private */
+            _applyDimensions: function () {
+                var canvasElement = this.canvasElement,
+                    canvasAttributes = this.canvasAttributes,
+                    width = canvasAttributes.getItem('width'),
+                    height = canvasAttributes.getItem('height');
+
+                if (width) {
+                    canvasElement.width = width;
+                }
+
+                if (height) {
+                    canvasElement.height = height;
+                }
+            },
+
+            /** @private */
+            _applyBackground: function () {
+                var canvasAttributes = this.canvasAttributes,
+                    backgroundColor = canvasAttributes.getItem('backgroundColor');
+
+                if (backgroundColor) {
+                    shoeshine.CanvasUtils.fillWithColor(this, backgroundColor);
+                }
+            },
+
             /**
              * @param {shoeshine.Canvas} childCanvas
              * @private
              */
             _drawChildCanvas: function (childCanvas) {
                 var ctx = this.canvasElement.getContext('2d');
-
                 ctx.drawImage(childCanvas.canvasElement, 0, 0);
             }
         })
@@ -37,66 +62,38 @@ troop.postpone(shoeshine, 'Canvas', function (ns, className) {
             init: function () {
                 shoeshine.Progenitor.init.call(this);
 
+                /**
+                 * @type {HTMLElement}
+                 */
                 this.canvasElement = document.createElement('canvas');
+
+                /**
+                 * @type {sntls.Collection}
+                 */
+                this.canvasAttributes = sntls.Collection.create();
             },
 
             /**
-             * @param {number} width
+             * @param {object} canvasAttributes
              * @returns {shoeshine.Canvas}
              */
-            setWidth: function (width) {
-                this.canvasElement.width = width;
+            setCanvasAttributes: function (canvasAttributes) {
+                this.canvasAttributes = this.canvasAttributes.mergeWith(sntls.Collection.create(canvasAttributes));
                 return this;
-            },
-
-            /**
-             * @returns {number}
-             */
-            getWidth: function () {
-                return this.canvasElement.width;
-            },
-
-            /**
-             * @param {number} height
-             * @returns {shoeshine.Canvas}
-             */
-            setHeight: function (height) {
-                this.canvasElement.height = height;
-                return this;
-            },
-
-            /**
-             * @returns {number}
-             */
-            getHeight: function () {
-                return this.canvasElement.height;
             },
 
             /**
              * @returns {shoeshine.Canvas}
              */
             render: function () {
-                console.log("rendering canvas");
+                console.log("rendering canvas", this.instanceId);
+
+                this._applyDimensions();
+                this._applyBackground();
 
                 this.children
                     .callOnEachItem('render')
                     .passEachItemTo(this._drawChildCanvas, this);
-
-                return this;
-            },
-
-            /**
-             * @param {string} rgb RGB color in hash notation.
-             * @returns {shoeshine.Canvas}
-             */
-            fillWithColor: function (rgb) {
-                var canvasElement = this.canvasElement,
-                    ctx = canvasElement.getContext('2d');
-
-                ctx.save();
-                ctx.fillStyle = rgb;
-                ctx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-                ctx.restore();
 
                 return this;
             }
