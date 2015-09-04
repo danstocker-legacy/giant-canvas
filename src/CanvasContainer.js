@@ -1,22 +1,22 @@
-/*global dessert, troop, sntls, evan, candystore, shoeshine */
-troop.postpone(candystore, 'CanvasContainer', function (ns, className) {
+/*global giant */
+giant.postpone(giant, 'CanvasContainer', function (ns, className) {
     "use strict";
 
-    var base = shoeshine.Widget,
+    var base = giant.Widget,
         self = base.extend(className);
 
     /**
-     * @name candystore.CanvasContainer.create
+     * @name giant.CanvasContainer.create
      * @function
-     * @returns {candystore.CanvasContainer}
+     * @returns {giant.CanvasContainer}
      */
 
     /**
      * @class
-     * @extends shoeshine.Widget
+     * @extends giant.Widget
      */
-    candystore.CanvasContainer = self
-        .addMethods(/** @lends candystore.CanvasContainer# */{
+    giant.CanvasContainer = self
+        .addMethods(/** @lends giant.CanvasContainer# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
@@ -27,12 +27,12 @@ troop.postpone(candystore, 'CanvasContainer', function (ns, className) {
                     'onAttributeChange');
 
                 /**
-                 * @type {candystore.Canvas}
+                 * @type {giant.Canvas}
                  */
                 this.canvas = undefined;
 
                 /**
-                 * @type {sntls.Debouncer}
+                 * @type {giant.Debouncer}
                  */
                 this.reRenderDebouncer = this.reRender.toDebouncer();
             },
@@ -51,8 +51,8 @@ troop.postpone(candystore, 'CanvasContainer', function (ns, className) {
             },
 
             /**
-             * @param {candystore.Canvas} canvas
-             * @returns {candystore.CanvasContainer}
+             * @param {giant.Canvas} canvas
+             * @returns {giant.CanvasContainer}
              */
             setCanvas: function (canvas) {
                 var oldCanvas = this.canvas;
@@ -61,13 +61,13 @@ troop.postpone(candystore, 'CanvasContainer', function (ns, className) {
 
                 if (oldCanvas) {
                     oldCanvas
-                        .unsubscribeFrom(candystore.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
-                        .unsubscribeFrom(candystore.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
+                        .unsubscribeFrom(giant.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
+                        .unsubscribeFrom(giant.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
                 }
 
                 canvas
-                    .subscribeTo(candystore.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
-                    .subscribeTo(candystore.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
+                    .subscribeTo(giant.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
+                    .subscribeTo(giant.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
 
                 if (this.getElement()) {
                     this.reRender();
@@ -77,21 +77,21 @@ troop.postpone(candystore, 'CanvasContainer', function (ns, className) {
             },
 
             /**
-             * @param {evan.Event} event
+             * @param {giant.Event} event
              * @ignore
              */
             onBackgroundLoad: function (event) {
-                var link = evan.pushOriginalEvent(event);
+                var link = giant.pushOriginalEvent(event);
                 this.reRenderDebouncer.runDebounced(16);
                 link.unLink();
             },
 
             /**
-             * @param {evan.Event} event
+             * @param {giant.Event} event
              * @ignore
              */
             onAttributeChange: function (event) {
-                var link = evan.pushOriginalEvent(event);
+                var link = giant.pushOriginalEvent(event);
                 this.reRenderDebouncer.runDebounced(16);
                 link.unLink();
             }

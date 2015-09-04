@@ -1,4 +1,5 @@
+/*.tgz
 /.idea/
 /node_modules/
 /out/
-candystore-canvas.js
+giant-canvas.js

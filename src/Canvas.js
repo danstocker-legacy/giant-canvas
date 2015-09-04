@@ -1,36 +1,36 @@
-/*global dessert, troop, sntls, evan, candystore, shoeshine */
-troop.postpone(candystore, 'Canvas', function (ns, className) {
+/*global giant */
+giant.postpone(giant, 'Canvas', function (ns, className) {
     "use strict";
 
-    var base = troop.Base,
+    var base = giant.Base,
         self = base.extend()
-            .addTrait(evan.Evented)
-            .addTrait(shoeshine.Progenitor)
+            .addTrait(giant.Evented)
+            .addTrait(giant.Progenitor)
             .extend(className);
 
     /**
-     * @name candystore.Canvas.create
+     * @name giant.Canvas.create
      * @function
-     * @returns {candystore.Canvas}
+     * @returns {giant.Canvas}
      */
 
     /**
      * @class
-     * @extends troop.Base
-     * @extends evan.Evented
-     * @extends shoeshine.Progenitor
+     * @extends giant.Base
+     * @extends giant.Evented
+     * @extends giant.Progenitor
      */
-    candystore.Canvas = self
-        .setEventSpace(shoeshine.widgetEventSpace)
+    giant.Canvas = self
+        .setEventSpace(giant.widgetEventSpace)
         .setEventPath('canvas'.toPath())
-        .addConstants(/** @lends candystore.Canvas */{
+        .addConstants(/** @lends giant.Canvas */{
             /** @constant */
             EVENT_BACKGROUND_LOAD: 'background-load',
 
             /** @constant */
             EVENT_ATTRIBUTE_CHANGE: 'attribute-change'
         })
-        .addPrivateMethods(/** @lends candystore.Canvas# */{
+        .addPrivateMethods(/** @lends giant.Canvas# */{
             /**
              * @param {object} canvasAttributes
              * @private
@@ -94,16 +94,16 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
                     backgroundColor = canvasAttributes.getItem('backgroundColor');
 
                 if (backgroundColor) {
-                    candystore.CanvasUtils.fillWithColor(this, backgroundColor);
+                    giant.CanvasUtils.fillWithColor(this, backgroundColor);
                 }
 
                 if (backgroundImageElement) {
-                    candystore.CanvasUtils.drawImage(this, backgroundImageElement);
+                    giant.CanvasUtils.drawImage(this, backgroundImageElement);
                 }
             },
 
             /**
-             * @param {candystore.Canvas} childCanvas
+             * @param {giant.Canvas} childCanvas
              * @private
              */
             _renderChildCanvas: function (childCanvas) {
@@ -123,20 +123,20 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
                     overlayAlpha = canvasAttributes.getItem('overlayAlpha');
 
                 if (hue) {
-                    candystore.CanvasUtils.makeMonochrome(this, hue);
+                    giant.CanvasUtils.makeMonochrome(this, hue);
                 }
 
                 if (overlayColor) {
-                    candystore.CanvasUtils.addColorOverlay(this, overlayColor, overlayAlpha || 0);
+                    giant.CanvasUtils.addColorOverlay(this, overlayColor, overlayAlpha || 0);
                 }
             }
         })
-        .addMethods(/** @lends candystore.Canvas# */{
+        .addMethods(/** @lends giant.Canvas# */{
             /**
              * @ignore
              */
             init: function () {
-                shoeshine.Progenitor.init.call(this);
+                giant.Progenitor.init.call(this);
 
                 /**
                  * @type {HTMLElement}
@@ -144,9 +144,9 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
                 this.canvasElement = document.createElement('canvas');
 
                 /**
-                 * @type {sntls.Collection}
+                 * @type {giant.Collection}
                  */
-                this.canvasAttributes = sntls.Collection.create();
+                this.canvasAttributes = giant.Collection.create();
 
                 /**
                  * @type {HTMLElement}
@@ -157,27 +157,27 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
             },
 
             /**
-             * @param {candystore.Canvas} parent
-             * @returns {candystore.Canvas}
+             * @param {giant.Canvas} parent
+             * @returns {giant.Canvas}
              */
             addToParent: function (parent) {
-                shoeshine.Progenitor.addToParent.call(this, parent);
+                giant.Progenitor.addToParent.call(this, parent);
                 this.setEventPath(this.getLineage().prepend(self.eventPath));
                 return this;
             },
 
             /**
-             * @returns {candystore.Canvas}
+             * @returns {giant.Canvas}
              */
             removeFromParent: function () {
-                shoeshine.Progenitor.removeFromParent.call(this);
+                giant.Progenitor.removeFromParent.call(this);
                 this.setEventPath([String(this.instanceId)].toPath().prepend(self.eventPath));
                 return this;
             },
 
             /**
              * @param {object} canvasAttributes
-             * @returns {candystore.Canvas}
+             * @returns {giant.Canvas}
              */
             setCanvasAttributes: function (canvasAttributes) {
                 // applying attributes that must be set immediately
@@ -249,7 +249,7 @@ troop.postpone(candystore, 'Canvas', function (ns, className) {
             },
 
             /**
-             * @returns {candystore.Canvas}
+             * @returns {giant.Canvas}
              */
             render: function () {
                 this._applyDimensions();

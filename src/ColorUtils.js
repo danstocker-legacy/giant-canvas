@@ -1,17 +1,17 @@
-/*global dessert, troop, sntls, evan, candystore */
-troop.postpone(candystore, 'ColorUtils', function () {
+/*global giant */
+giant.postpone(giant, 'ColorUtils', function () {
     "use strict";
 
-    var base = troop.Base,
+    var base = giant.Base,
         self = base.extend();
 
     /**
      * TODO: Add RGB parsing methods.
      * @class
-     * @extends troop.Base
+     * @extends giant.Base
      */
-    candystore.ColorUtils = self
-        .addMethods(/** @lends candystore.ColorUtils */{
+    giant.ColorUtils = self
+        .addMethods(/** @lends giant.ColorUtils */{
             /**
              * Converts an RGB color value to HSV. Conversion formula
              * adapted from http://en.wikipedia.org/wiki/HSV_color_space.

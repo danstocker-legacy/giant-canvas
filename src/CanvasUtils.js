@@ -1,18 +1,18 @@
-/*global dessert, troop, sntls, candystore */
-troop.postpone(candystore, 'CanvasUtils', function () {
+/*global giant */
+giant.postpone(giant, 'CanvasUtils', function () {
     "use strict";
 
-    var base = troop.Base,
+    var base = giant.Base,
         self = base.extend();
 
     /**
      * @class
-     * @extends troop.Base
+     * @extends giant.Base
      */
-    candystore.CanvasUtils = self
-        .addMethods(/** @lends candystore.CanvasUtils */{
+    giant.CanvasUtils = self
+        .addMethods(/** @lends giant.CanvasUtils */{
             /**
-             * @param {candystore.Canvas} canvas
+             * @param {giant.Canvas} canvas
              * @param {string} rgb
              */
             fillWithColor: function (canvas, rgb) {
@@ -29,7 +29,7 @@ troop.postpone(candystore, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {candystore.Canvas} canvas
+             * @param {giant.Canvas} canvas
              * @param {HTMLElement} imageElement
              */
             drawImage: function (canvas, imageElement) {
@@ -40,7 +40,7 @@ troop.postpone(candystore, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {candystore.Canvas} canvas
+             * @param {giant.Canvas} canvas
              * @param {number} hue
              */
             makeMonochrome: function (canvas, hue) {
@@ -57,8 +57,8 @@ troop.postpone(candystore, 'CanvasUtils', function () {
 
                 for (var i = 0; i < imageDataBuffer.length; i += 4) {
                     // setting hue to specified value on all pixels
-                    hsv = candystore.ColorUtils.rgbToHsv(imageDataBuffer[i], imageDataBuffer[i + 1], imageDataBuffer[i + 2]);
-                    rgb = candystore.ColorUtils.hsvToRgb(hue, hsv.s, hsv.v);
+                    hsv = giant.ColorUtils.rgbToHsv(imageDataBuffer[i], imageDataBuffer[i + 1], imageDataBuffer[i + 2]);
+                    rgb = giant.ColorUtils.hsvToRgb(hue, hsv.s, hsv.v);
 
                     imageDataBuffer[i] = rgb.r;
                     imageDataBuffer[i + 1] = rgb.g;
@@ -69,7 +69,7 @@ troop.postpone(candystore, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {candystore.Canvas} canvas
+             * @param {giant.Canvas} canvas
              * @param {number[]} overlayRgb
              * @param {number} alpha
              */

@@ -1,6 +1,6 @@
 {
-    "name"           : "candystore-canvas",
-    "version"        : "0.1.0",
+    "name"           : "giant-canvas",
+    "version"        : "0.0.1",
     "description"    : "Canvas widgets",
     "keywords"       : [
         "widgets",
@@ -11,20 +11,22 @@
     "license"        : "MIT",
     "repository"     : {
         "type": "git",
-        "url" : "git://github.com/danstocker/candystore-canvas.git"
+        "url" : "git://github.com/danstocker/giant-canvas.git"
     },
     "dependencies"   : {
-        "bookworm"  : "0.4.0",
-        "candystore": "~0.9.0",
-        "dessert"   : "~0.3.2",
-        "evan"      : "~0.8.0",
-        "jquery"    : "~2.1.0",
-        "poodle"    : "~0.4.0",
-        "rubberband": "~0.2.0",
-        "shoeshine" : "~0.3.0",
-        "sntls"     : "~0.21.0",
-        "troop"     : "~0.9.0",
-        "q"         : "^1.4.0"
+        "giant-assertion"     : "0.0.4",
+        "giant-common-widgets": "0.0.4",
+        "giant-data"          : "0.0.4",
+        "giant-entity"        : "0.0.4",
+        "giant-event"         : "0.0.4",
+        "giant-namespace"     : "0.0.4",
+        "giant-oop"           : "0.0.4",
+        "giant-templating"    : "0.0.4",
+        "giant-transport"     : "0.0.4",
+        "giant-utils"         : "0.0.4",
+        "giant-widget"        : "0.0.4",
+        "jquery"              : "~2.1.0",
+        "q"                   : "^1.4.0"
     },
     "devDependencies": {
         "QUnitAdapter"        : "https://dl.dropboxusercontent.com/u/9258903/packages/QUnitAdapter-0.1.0.tgz",
@@ -40,7 +42,7 @@
         "phil"                : "~0.2.3"
     },
     "files"          : [
-        "candystore-canvas.js"
+        "giant-canvas.js"
     ],
-    "main"           : "candystore-canvas.js"
+    "main"           : "giant-canvas.js"
 }

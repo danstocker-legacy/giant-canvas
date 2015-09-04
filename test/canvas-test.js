@@ -1,15 +1,15 @@
-/*global candystore */
+/*global giant */
 (function () {
     "use strict";
 
-    var red = candystore.Canvas.create()
+    var red = giant.Canvas.create()
             .setChildName('red')
             .setCanvasAttributes({
                 height         : 300,
                 width          : 300,
                 backgroundColor: '#ff0000'
             }),
-        green = candystore.Canvas.create()
+        green = giant.Canvas.create()
             .setChildName('green')
             .setCanvasAttributes({
                 height         : 100,
@@ -21,7 +21,7 @@
                 overlayColor   : [255, 0, 0],
                 overlayAlpha   : 0.2
             }),
-        blue = candystore.Canvas.create()
+        blue = giant.Canvas.create()
             .setChildName('blue')
             .setCanvasAttributes({
                 height         : 50,
@@ -30,7 +30,7 @@
                 left           : 'center',
                 backgroundColor: '#0000ff'
             }),
-        teal = candystore.Canvas.create()
+        teal = giant.Canvas.create()
             .setChildName('teal')
             .setCanvasAttributes({
                 height         : 'background',
@@ -40,7 +40,7 @@
                 backgroundImage: 'logo.png'
             });
 
-    candystore.CanvasContainer.create()
+    giant.CanvasContainer.create()
         .renderInto(document.body)
         .setCanvas(red
             .addChild(green)

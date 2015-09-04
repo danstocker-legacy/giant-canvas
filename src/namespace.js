@@ -1,36 +1,15 @@
 /*global require */
 /** @namespace */
-var candystore = candystore || require('candystore');
+var giant = giant || require('giant-namespace');
 
-/**
- * @class
- * @see https://github.com/production-minds/dessert
- */
-var dessert = dessert || require('dessert');
-
-/**
- * @namespace
- * @see https://github.com/production-minds/troop
- */
-var troop = troop || require('troop');
-
-/**
- * @namespace
- * @see https://github.com/danstocker/sntls
- */
-var sntls = sntls || require('sntls');
-
-/**
- * @namespace
- * @see https://github.com/danstocker/evan
- */
-var evan = evan || require('evan');
-
-/**
- * @namespace
- * @see https://github.com/danstocker/rubberband
- */
-var rubberband = rubberband || require('rubberband');
+if (typeof require === 'function') {
+    require('giant-asset');
+    require('giant-oop');
+    require('giant-utils');
+    require('giant-data');
+    require('giant-event');
+    require('giant-templating');
+}
 
 /**
  * @function
@@ -73,6 +52,6 @@ if (typeof document === 'undefined') {
  */
 
 /**
- * @name sntls.Hash
+ * @name giant.Hash
  * @class
  */
