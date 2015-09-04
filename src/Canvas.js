@@ -58,33 +58,13 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                     height = canvasAttributes.getItem('height'),
                     parent = this.parent;
 
-                switch (true) {
-                case backgroundImageElement && width === 'background':
-                    canvasElement.width = backgroundImageElement.width;
-                    break;
+                canvasElement.width = backgroundImageElement && width === 'background' ?
+                    backgroundImageElement.width :
+                    giant.UnitUtils.parseDimension(width, parent && parent.canvasElement.width) || canvasElement.width;
 
-                case parent && width === 'parent':
-                    canvasElement.width = parent.canvasElement.width;
-                    break;
-
-                case !!width:
-                    canvasElement.width = width;
-                    break;
-                }
-
-                switch (true) {
-                case backgroundImageElement && height === 'background':
-                    canvasElement.height = backgroundImageElement.height;
-                    break;
-
-                case parent && height === 'parent':
-                    canvasElement.height = parent.canvasElement.height;
-                    break;
-
-                case !!width:
-                    canvasElement.height = height;
-                    break;
-                }
+                canvasElement.height = backgroundImageElement && height === 'background' ?
+                    backgroundImageElement.height :
+                    giant.UnitUtils.parseDimension(height, parent && parent.canvasElement.height) || canvasElement.height;
             },
 
             /** @private */
@@ -97,7 +77,7 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                     giant.CanvasUtils.fillWithColor(this, backgroundColor);
                 }
 
-                if (backgroundImageElement) {
+                if (backgroundImageElement && backgroundImageElement.height && backgroundImageElement.width) {
                     giant.CanvasUtils.drawImage(this, backgroundImageElement);
                 }
             },
@@ -107,12 +87,27 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
              * @private
              */
             _renderChildCanvas: function (childCanvas) {
+                if (childCanvas.canvasAttributes.getItem('display') === 'none') {
+                    return;
+                }
+
+                var childElement = childCanvas.canvasElement;
+
+                if (!childElement.width || !childElement.height) {
+                    return;
+                }
+
                 var childPosition = childCanvas.getRelativePosition(),
-                    childElement = childCanvas.canvasElement,
+                    childScaling = childCanvas.getRelativeScaling(),
                     canvasElement = this.canvasElement,
                     ctx = canvasElement.getContext('2d');
 
-                ctx.drawImage(childElement, childPosition.left, childPosition.top);
+                ctx.drawImage(
+                    childElement,
+                    childPosition.left,
+                    childPosition.top,
+                    childElement.width * childScaling.width,
+                    childElement.height * childScaling.height);
             },
 
             /** @private */
@@ -162,7 +157,7 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
              */
             addToParent: function (parent) {
                 giant.Progenitor.addToParent.call(this, parent);
-                this.setEventPath(this.getLineage().prepend(self.eventPath));
+                this.updateEventPath();
                 return this;
             },
 
@@ -171,7 +166,16 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
              */
             removeFromParent: function () {
                 giant.Progenitor.removeFromParent.call(this);
-                this.setEventPath([String(this.instanceId)].toPath().prepend(self.eventPath));
+                this.updateEventPath();
+                return this;
+            },
+
+            /**
+             * @returns {candystore.Canvas}
+             */
+            updateEventPath: function () {
+                this.setEventPath(this.getLineage().prepend(self.eventPath));
+                this.children.callOnEachItem('updateEventPath');
                 return this;
             },
 
@@ -206,6 +210,26 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
             },
 
             /**
+             * Retrieves the canvas' scaling ratios relative to the parent Canvas instance.
+             * @returns {{width: number, height: number}}
+             */
+            getRelativeScaling: function () {
+                var parent = this.parent,
+                    parentElement = parent && parent.canvasElement,
+                    canvasElement = this.canvasElement,
+                    canvasAttributes = this.canvasAttributes,
+                    childWidth = canvasAttributes.getItem('childWidth'),
+                    childHeight = canvasAttributes.getItem('childHeight'),
+                    xScaling = giant.UnitUtils.parseDimension(childWidth, parentElement && parentElement.width) / canvasElement.width,
+                    yScaling = giant.UnitUtils.parseDimension(childHeight, parentElement && parentElement.height) / canvasElement.height;
+
+                return {
+                    width : xScaling || yScaling || 1,
+                    height: yScaling || xScaling || 1
+                };
+            },
+
+            /**
              * Retrieves the canvas' position relative to the parent Canvas instance.
              * @returns {{top: number, left: number}}
              */
@@ -214,15 +238,16 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                     canvasElement = this.canvasElement,
                     canvasAttributes = this.canvasAttributes,
                     top = canvasAttributes.getItem('top'),
-                    left = canvasAttributes.getItem('left');
+                    left = canvasAttributes.getItem('left'),
+                    scaling = this.getRelativeScaling();
 
                 return {
                     top : top === 'center' ?
-                        (parentElement.height - canvasElement.height) / 2 :
-                        top || 0,
+                        (parentElement.height - (canvasElement.height * scaling.width)) / 2 :
+                        giant.UnitUtils.parseDimension(top, parentElement && parentElement.height) || 0,
                     left: left === 'center' ?
-                        (parentElement.width - canvasElement.width) / 2 :
-                        left || 0
+                        (parentElement.width - (canvasElement.width * scaling.height)) / 2 :
+                        giant.UnitUtils.parseDimension(left, parentElement && parentElement.width) || 0
                 };
             },
 
@@ -236,20 +261,50 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                         left: 0
                     },
                     canvas = this,
-                    relativePosition;
+                    parent = canvas.parent,
+                    relativePosition,
+                    relativeScaling;
 
-                while (canvas.parent) {
+                while (parent) {
                     relativePosition = canvas.getRelativePosition();
-                    result.top += relativePosition.top;
-                    result.left += relativePosition.left;
+                    relativeScaling = parent.getRelativeScaling();
+                    result.top += relativePosition.top * relativeScaling.height;
+                    result.left += relativePosition.left * relativeScaling.width;
                     canvas = canvas.parent;
+                    parent = canvas.parent;
                 }
 
                 return result;
             },
 
             /**
-             * @returns {giant.Canvas}
+             * Gets absolute size of the Canvas.
+             * @returns {{width: number, height: number}}
+             */
+            getAbsoluteSize: function () {
+                var canvasElement = this.canvasElement,
+                    absoluteScaling = {
+                        width : 1,
+                        height: 1
+                    },
+                    canvas = this,
+                    relativeScaling;
+
+                while (canvas.parent) {
+                    relativeScaling = canvas.getRelativeScaling();
+                    absoluteScaling.width = absoluteScaling.width * relativeScaling.width;
+                    absoluteScaling.height = absoluteScaling.height * relativeScaling.height;
+                    canvas = canvas.parent;
+                }
+
+                return {
+                    width : canvasElement.width * absoluteScaling.width,
+                    height: canvasElement.height * absoluteScaling.height
+                };
+            },
+
+            /**
+             * @returns {candystore.Canvas}
              */
             render: function () {
                 this._applyDimensions();

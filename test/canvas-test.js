@@ -2,57 +2,60 @@
 (function () {
     "use strict";
 
-    var red = giant.Canvas.create()
+    var canvasContainer = giant.CanvasContainer.create()
+        .renderInto(document.body)
+        .setCanvas(giant.Canvas.create()
             .setChildName('red')
             .setCanvasAttributes({
-                height         : 300,
                 width          : 300,
+                height         : 300,
                 backgroundColor: '#ff0000'
-            }),
-        green = giant.Canvas.create()
-            .setChildName('green')
-            .setCanvasAttributes({
-                height         : 100,
-                width          : 100,
-                top            : 10,
-                left           : 20,
-                backgroundColor: '#00ff00',
-                backgroundImage: 'logo.png',
-                overlayColor   : [255, 0, 0],
-                overlayAlpha   : 0.2
-            }),
-        blue = giant.Canvas.create()
+            })
+            .addChild(giant.Canvas.create()
+                .setChildName('green')
+                .setCanvasAttributes({
+                    width          : 100,
+                    height         : 100,
+                    childWidth     : '30%',
+                    top            : 10,
+                    left           : 20,
+                    backgroundColor: '#00ff00',
+                    backgroundImage: 'logo.png',
+                    overlayColor   : [255, 0, 0],
+                    overlayAlpha   : 0.2
+                }))
+            .addChild(giant.Canvas.create()
+                .setChildName('teal')
+                .setCanvasAttributes({
+                    width          : 'background',
+                    height         : 'background',
+                    childWidth     : 100,
+                    top            : 'center',
+                    left           : 'center',
+                    backgroundColor: '#00ffff'
+                })));
+
+    canvasContainer.getCanvasByName('green')
+        .getFirstValue()
+        .addChild(giant.Canvas.create()
             .setChildName('blue')
             .setCanvasAttributes({
-                height         : 50,
-                width          : 'parent',
-                top            : 'center',
+                width          : '75%',
+                height         : '50%',
+                top            : '25%',
                 left           : 'center',
                 backgroundColor: '#0000ff'
-            }),
-        teal = giant.Canvas.create()
-            .setChildName('teal')
-            .setCanvasAttributes({
-                height         : 'background',
-                width          : 'background',
-                left           : 150,
-                backgroundColor: '#00ffff',
-                backgroundImage: 'logo.png'
-            });
-
-    giant.CanvasContainer.create()
-        .renderInto(document.body)
-        .setCanvas(red
-            .addChild(green)
-            .addChild(teal));
-
-    green
-        .addChild(blue)
+            }))
         .setCanvasAttributes({
             height: 150
         });
 
-    teal.setCanvasAttributes({
-        hue: 1.1
-    });
+    setTimeout(function () {
+        canvasContainer.getCanvasByName('teal')
+            .getFirstValue()
+            .setCanvasAttributes({
+                hue            : 1.1,
+                backgroundImage: 'logo.png'
+            });
+    }, 200);
 }());

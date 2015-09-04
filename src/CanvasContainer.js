@@ -16,13 +16,34 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
      * @extends giant.Widget
      */
     giant.CanvasContainer = self
+        .addConstants(/** @lends giant.CanvasContainer */{
+            /** @constant */
+            EVENT_CANVAS_UPDATE: 'canvas-update'
+        })
+        .addPrivateMethods(/** @lends giant.CanvasContainer# */{
+            /** @private */
+            _updateCanvas: function () {
+                var canvas = this.canvas,
+                    element = this.getElement(),
+                    canvasElement = canvas && canvas.canvasElement;
+
+                if (canvas && element) {
+                    canvasElement.width = element.clientWidth;
+                    canvasElement.height = element.clientHeight;
+                    canvas.render();
+                    element.appendChild(canvasElement);
+
+                    this.triggerSync(this.EVENT_CANVAS_UPDATE);
+                }
+            }
+        })
         .addMethods(/** @lends giant.CanvasContainer# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
 
                 this.elevateMethods(
-                    'reRender',
+                    '_updateCanvas',
                     'onBackgroundLoad',
                     'onAttributeChange');
 
@@ -34,23 +55,17 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
                 /**
                  * @type {giant.Debouncer}
                  */
-                this.reRenderDebouncer = this.reRender.toDebouncer();
+                this.updateCanvasDebouncer = this._updateCanvas.toDebouncer();
             },
 
             /** @ignore */
             afterRender: function () {
                 base.afterRender.call(this);
-
-                var canvas = this.canvas,
-                    element = this.getElement();
-
-                if (canvas) {
-                    canvas.render();
-                    element.appendChild(canvas.canvasElement);
-                }
+                this._updateCanvas();
             },
 
             /**
+             * Sets the Canvas instance that will manifest in the DOM.
              * @param {giant.Canvas} canvas
              * @returns {giant.CanvasContainer}
              */
@@ -69,11 +84,27 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
                     .subscribeTo(giant.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
                     .subscribeTo(giant.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
 
-                if (this.getElement()) {
-                    this.reRender();
-                }
+                this._updateCanvas();
 
                 return this;
+            },
+
+            /**
+             * Retrieves a list of Canvas instances inside the current container matching the specified name.
+             * @param {string} canvasName
+             * @returns {giant.Collection}
+             */
+            getCanvasByName: function (canvasName) {
+                giant.isString(canvasName, "Invalid canvas name");
+
+                var canvas = this.canvas;
+
+                return canvas ?
+                    canvas.getAllDescendants()
+                        .filterBySelector(function (canvas) {
+                            return canvas.childName === canvasName;
+                        }) :
+                    giant.Collection.create();
             },
 
             /**
@@ -82,7 +113,7 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
              */
             onBackgroundLoad: function (event) {
                 var link = giant.pushOriginalEvent(event);
-                this.reRenderDebouncer.runDebounced(16);
+                this.updateCanvasDebouncer.runDebounced(16);
                 link.unLink();
             },
 
@@ -92,7 +123,7 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
              */
             onAttributeChange: function (event) {
                 var link = giant.pushOriginalEvent(event);
-                this.reRenderDebouncer.runDebounced(16);
+                this.updateCanvasDebouncer.runDebounced(16);
                 link.unLink();
             }
         });

@@ -5,6 +5,7 @@ module.exports = function (grunt) {
     var params = {
         files: [
             'src/namespace.js',
+            'src/UnitUtils.js',
             'src/ColorUtils.js',
             'src/CanvasUtils.js',
             'src/Canvas.js',
