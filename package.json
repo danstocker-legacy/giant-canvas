@@ -1,6 +1,6 @@
 {
     "name"           : "giant-canvas",
-    "version"        : "0.0.3",
+    "version"        : "0.0.4",
     "description"    : "Canvas widgets",
     "keywords"       : [
         "widgets",
@@ -14,19 +14,9 @@
         "url" : "git://github.com/danstocker/giant-canvas.git"
     },
     "dependencies"   : {
-        "giant-assertion"     : "0.0.4",
-        "giant-common-widgets": "0.0.4",
-        "giant-data"          : "0.0.4",
-        "giant-entity"        : "0.0.4",
-        "giant-event"         : "0.0.4",
-        "giant-namespace"     : "0.0.4",
-        "giant-oop"           : "0.0.4",
-        "giant-templating"    : "0.0.4",
-        "giant-transport"     : "0.0.4",
-        "giant-utils"         : "0.0.4",
-        "giant-widget"        : "0.0.4",
-        "jquery"              : "~2.1.0",
-        "q"                   : "^1.4.0"
+        "giant" : "0.0.5",
+        "jquery": "~2.1.0",
+        "q"     : "^1.4.0"
     },
     "devDependencies": {
         "QUnitAdapter"        : "https://dl.dropboxusercontent.com/u/9258903/packages/QUnitAdapter-0.1.0.tgz",

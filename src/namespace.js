@@ -1,15 +1,6 @@
 /*global require */
 /** @namespace */
-var giant = giant || require('giant-namespace');
-
-if (typeof require === 'function') {
-    require('giant-asset');
-    require('giant-oop');
-    require('giant-utils');
-    require('giant-data');
-    require('giant-event');
-    require('giant-templating');
-}
+var giant = giant || require('giant');
 
 /**
  * @function
