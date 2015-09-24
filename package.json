@@ -14,7 +14,7 @@
         "url" : "git://github.com/danstocker/giant-canvas.git"
     },
     "dependencies"   : {
-        "giant" : "~0.0.5",
+        "giant" : "~0.0.7",
         "jquery": "~2.1.0",
         "q"     : "^1.4.0"
     },

@@ -108,23 +108,17 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
             },
 
             /**
-             * @param {giant.Event} event
              * @ignore
              */
-            onBackgroundLoad: function (event) {
-                var link = giant.pushOriginalEvent(event);
-                this.updateCanvasDebouncer.runDebounced(16);
-                link.unLink();
+            onBackgroundLoad: function () {
+                return this.updateCanvasDebouncer.runDebounced(16);
             },
 
             /**
-             * @param {giant.Event} event
              * @ignore
              */
-            onAttributeChange: function (event) {
-                var link = giant.pushOriginalEvent(event);
-                this.updateCanvasDebouncer.runDebounced(16);
-                link.unLink();
+            onAttributeChange: function () {
+                return this.updateCanvasDebouncer.runDebounced(16);
             }
         });
 });
