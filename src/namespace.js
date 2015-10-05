@@ -1,6 +1,24 @@
 /*global require */
 /** @namespace */
-var giant = giant || require('giant');
+var $assertion = $assertion || require('giant-assertion');
+
+/** @namespace */
+var $oop = $oop || require('giant-oop');
+
+/** @namespace */
+var $utils = $utils || require('giant-utils');
+
+/** @namespace */
+var $data = $data || require('giant-data');
+
+/** @namespace */
+var $event = $event || require('giant-event');
+
+/** @namespace */
+var $widget = $widget || require('giant-widget');
+
+/** @namespace */
+var $canvas = {};
 
 /**
  * @function
@@ -43,6 +61,6 @@ if (typeof document === 'undefined') {
  */
 
 /**
- * @name giant.Hash
+ * @name $data.Hash
  * @class
  */

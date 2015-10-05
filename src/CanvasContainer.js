@@ -1,26 +1,25 @@
-/*global giant */
-giant.postpone(giant, 'CanvasContainer', function (ns, className) {
+$oop.postpone($canvas, 'CanvasContainer', function (ns, className) {
     "use strict";
 
-    var base = giant.Widget,
+    var base = $widget.Widget,
         self = base.extend(className);
 
     /**
-     * @name giant.CanvasContainer.create
+     * @name $canvas.CanvasContainer.create
      * @function
-     * @returns {giant.CanvasContainer}
+     * @returns {$canvas.CanvasContainer}
      */
 
     /**
      * @class
-     * @extends giant.Widget
+     * @extends $widget.Widget
      */
-    giant.CanvasContainer = self
-        .addConstants(/** @lends giant.CanvasContainer */{
+    $canvas.CanvasContainer = self
+        .addConstants(/** @lends $canvas.CanvasContainer */{
             /** @constant */
             EVENT_CANVAS_UPDATE: 'canvas-update'
         })
-        .addPrivateMethods(/** @lends giant.CanvasContainer# */{
+        .addPrivateMethods(/** @lends $canvas.CanvasContainer# */{
             /** @private */
             _updateCanvas: function () {
                 var canvas = this.canvas,
@@ -37,7 +36,7 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
                 }
             }
         })
-        .addMethods(/** @lends giant.CanvasContainer# */{
+        .addMethods(/** @lends $canvas.CanvasContainer# */{
             /** @ignore */
             init: function () {
                 base.init.call(this);
@@ -48,12 +47,12 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
                     'onAttributeChange');
 
                 /**
-                 * @type {giant.Canvas}
+                 * @type {$canvas.Canvas}
                  */
                 this.canvas = undefined;
 
                 /**
-                 * @type {giant.Debouncer}
+                 * @type {$utils.Debouncer}
                  */
                 this.updateCanvasDebouncer = this._updateCanvas.toDebouncer();
             },
@@ -66,8 +65,8 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
 
             /**
              * Sets the Canvas instance that will manifest in the DOM.
-             * @param {giant.Canvas} canvas
-             * @returns {giant.CanvasContainer}
+             * @param {$canvas.Canvas} canvas
+             * @returns {$canvas.CanvasContainer}
              */
             setCanvas: function (canvas) {
                 var oldCanvas = this.canvas;
@@ -76,13 +75,13 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
 
                 if (oldCanvas) {
                     oldCanvas
-                        .unsubscribeFrom(giant.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
-                        .unsubscribeFrom(giant.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
+                        .unsubscribeFrom($canvas.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
+                        .unsubscribeFrom($canvas.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
                 }
 
                 canvas
-                    .subscribeTo(giant.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
-                    .subscribeTo(giant.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
+                    .subscribeTo($canvas.Canvas.EVENT_BACKGROUND_LOAD, this.onBackgroundLoad)
+                    .subscribeTo($canvas.Canvas.EVENT_ATTRIBUTE_CHANGE, this.onAttributeChange);
 
                 this._updateCanvas();
 
@@ -92,10 +91,10 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
             /**
              * Retrieves a list of Canvas instances inside the current container matching the specified name.
              * @param {string} canvasName
-             * @returns {giant.Collection}
+             * @returns {$data.Collection}
              */
             getCanvasByName: function (canvasName) {
-                giant.isString(canvasName, "Invalid canvas name");
+                $assertion.isString(canvasName, "Invalid canvas name");
 
                 var canvas = this.canvas;
 
@@ -104,7 +103,7 @@ giant.postpone(giant, 'CanvasContainer', function (ns, className) {
                         .filterBySelector(function (canvas) {
                             return canvas.childName === canvasName;
                         }) :
-                    giant.Collection.create();
+                    $data.Collection.create();
             },
 
             /**

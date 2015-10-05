@@ -1,17 +1,16 @@
-/*global giant */
 (function () {
     "use strict";
 
-    var canvasContainer = giant.CanvasContainer.create()
+    var canvasContainer = $canvas.CanvasContainer.create()
         .renderInto(document.body)
-        .setCanvas(giant.Canvas.create()
+        .setCanvas($canvas.Canvas.create()
             .setChildName('red')
             .setCanvasAttributes({
                 width          : 300,
                 height         : 300,
                 backgroundColor: '#ff0000'
             })
-            .addChild(giant.Canvas.create()
+            .addChild($canvas.Canvas.create()
                 .setChildName('green')
                 .setCanvasAttributes({
                     width          : 100,
@@ -24,7 +23,7 @@
                     overlayColor   : [255, 0, 0],
                     overlayAlpha   : 0.2
                 }))
-            .addChild(giant.Canvas.create()
+            .addChild($canvas.Canvas.create()
                 .setChildName('teal')
                 .setCanvasAttributes({
                     width          : 'background',
@@ -37,7 +36,7 @@
 
     canvasContainer.getCanvasByName('green')
         .getFirstValue()
-        .addChild(giant.Canvas.create()
+        .addChild($canvas.Canvas.create()
             .setChildName('blue')
             .setCanvasAttributes({
                 width          : '75%',

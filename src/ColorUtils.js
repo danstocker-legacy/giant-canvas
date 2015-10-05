@@ -1,17 +1,16 @@
-/*global giant */
-giant.postpone(giant, 'ColorUtils', function () {
+$oop.postpone($canvas, 'ColorUtils', function () {
     "use strict";
 
-    var base = giant.Base,
+    var base = $oop.Base,
         self = base.extend();
 
     /**
      * TODO: Add RGB parsing methods.
      * @class
-     * @extends giant.Base
+     * @extends $oop.Base
      */
-    giant.ColorUtils = self
-        .addMethods(/** @lends giant.ColorUtils */{
+    $canvas.ColorUtils = self
+        .addMethods(/** @lends $canvas.ColorUtils */{
             /**
              * Converts an RGB color value to HSV. Conversion formula
              * adapted from http://en.wikipedia.org/wiki/HSV_color_space.

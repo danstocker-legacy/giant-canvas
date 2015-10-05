@@ -1,36 +1,35 @@
-/*global giant */
-giant.postpone(giant, 'Canvas', function (ns, className) {
+$oop.postpone($canvas, 'Canvas', function (ns, className) {
     "use strict";
 
-    var base = giant.Base,
+    var base = $oop.Base,
         self = base.extend()
-            .addTrait(giant.Evented)
-            .addTrait(giant.Progenitor)
+            .addTrait($event.Evented)
+            .addTrait($widget.Progenitor)
             .extend(className);
 
     /**
-     * @name giant.Canvas.create
+     * @name $canvas.Canvas.create
      * @function
-     * @returns {giant.Canvas}
+     * @returns {$canvas.Canvas}
      */
 
     /**
      * @class
-     * @extends giant.Base
-     * @extends giant.Evented
-     * @extends giant.Progenitor
+     * @extends $oop.Base
+     * @extends $event.Evented
+     * @extends $widget.Progenitor
      */
-    giant.Canvas = self
-        .setEventSpace(giant.widgetEventSpace)
+    $canvas.Canvas = self
+        .setEventSpace($widget.widgetEventSpace)
         .setEventPath('canvas'.toPath())
-        .addConstants(/** @lends giant.Canvas */{
+        .addConstants(/** @lends $canvas.Canvas */{
             /** @constant */
             EVENT_BACKGROUND_LOAD: 'background-load',
 
             /** @constant */
             EVENT_ATTRIBUTE_CHANGE: 'attribute-change'
         })
-        .addPrivateMethods(/** @lends giant.Canvas# */{
+        .addPrivateMethods(/** @lends $canvas.Canvas# */{
             /**
              * @param {object} canvasAttributes
              * @private
@@ -60,11 +59,11 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
 
                 canvasElement.width = backgroundImageElement && width === 'background' ?
                     backgroundImageElement.width :
-                    giant.UnitUtils.parseDimension(width, parent && parent.canvasElement.width) || canvasElement.width;
+                    $canvas.UnitUtils.parseDimension(width, parent && parent.canvasElement.width) || canvasElement.width;
 
                 canvasElement.height = backgroundImageElement && height === 'background' ?
                     backgroundImageElement.height :
-                    giant.UnitUtils.parseDimension(height, parent && parent.canvasElement.height) || canvasElement.height;
+                    $canvas.UnitUtils.parseDimension(height, parent && parent.canvasElement.height) || canvasElement.height;
             },
 
             /** @private */
@@ -74,16 +73,16 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                     backgroundColor = canvasAttributes.getItem('backgroundColor');
 
                 if (backgroundColor) {
-                    giant.CanvasUtils.fillWithColor(this, backgroundColor);
+                    $canvas.CanvasUtils.fillWithColor(this, backgroundColor);
                 }
 
                 if (backgroundImageElement && backgroundImageElement.height && backgroundImageElement.width) {
-                    giant.CanvasUtils.drawImage(this, backgroundImageElement);
+                    $canvas.CanvasUtils.drawImage(this, backgroundImageElement);
                 }
             },
 
             /**
-             * @param {giant.Canvas} childCanvas
+             * @param {$canvas.Canvas} childCanvas
              * @private
              */
             _renderChildCanvas: function (childCanvas) {
@@ -118,20 +117,20 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                     overlayAlpha = canvasAttributes.getItem('overlayAlpha');
 
                 if (hue) {
-                    giant.CanvasUtils.makeMonochrome(this, hue);
+                    $canvas.CanvasUtils.makeMonochrome(this, hue);
                 }
 
                 if (overlayColor) {
-                    giant.CanvasUtils.addColorOverlay(this, overlayColor, overlayAlpha || 0);
+                    $canvas.CanvasUtils.addColorOverlay(this, overlayColor, overlayAlpha || 0);
                 }
             }
         })
-        .addMethods(/** @lends giant.Canvas# */{
+        .addMethods(/** @lends $canvas.Canvas# */{
             /**
              * @ignore
              */
             init: function () {
-                giant.Progenitor.init.call(this);
+                $widget.Progenitor.init.call(this);
 
                 /**
                  * @type {HTMLElement}
@@ -139,9 +138,9 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                 this.canvasElement = document.createElement('canvas');
 
                 /**
-                 * @type {giant.Collection}
+                 * @type {$data.Collection}
                  */
-                this.canvasAttributes = giant.Collection.create();
+                this.canvasAttributes = $data.Collection.create();
 
                 /**
                  * @type {HTMLElement}
@@ -152,26 +151,26 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
             },
 
             /**
-             * @param {giant.Canvas} parent
-             * @returns {giant.Canvas}
+             * @param {$canvas.Canvas} parent
+             * @returns {$canvas.Canvas}
              */
             addToParent: function (parent) {
-                giant.Progenitor.addToParent.call(this, parent);
+                $widget.Progenitor.addToParent.call(this, parent);
                 this.updateEventPath();
                 return this;
             },
 
             /**
-             * @returns {giant.Canvas}
+             * @returns {$canvas.Canvas}
              */
             removeFromParent: function () {
-                giant.Progenitor.removeFromParent.call(this);
+                $widget.Progenitor.removeFromParent.call(this);
                 this.updateEventPath();
                 return this;
             },
 
             /**
-             * @returns {candystore.Canvas}
+             * @returns {$canvas.Canvas}
              */
             updateEventPath: function () {
                 this.setEventPath(this.getLineage().prepend(self.eventPath));
@@ -181,7 +180,7 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
 
             /**
              * @param {object} canvasAttributes
-             * @returns {giant.Canvas}
+             * @returns {$canvas.Canvas}
              */
             setCanvasAttributes: function (canvasAttributes) {
                 // applying attributes that must be set immediately
@@ -220,8 +219,8 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                     canvasAttributes = this.canvasAttributes,
                     childWidth = canvasAttributes.getItem('childWidth'),
                     childHeight = canvasAttributes.getItem('childHeight'),
-                    xScaling = giant.UnitUtils.parseDimension(childWidth, parentElement && parentElement.width) / canvasElement.width,
-                    yScaling = giant.UnitUtils.parseDimension(childHeight, parentElement && parentElement.height) / canvasElement.height;
+                    xScaling = $canvas.UnitUtils.parseDimension(childWidth, parentElement && parentElement.width) / canvasElement.width,
+                    yScaling = $canvas.UnitUtils.parseDimension(childHeight, parentElement && parentElement.height) / canvasElement.height;
 
                 return {
                     width : xScaling || yScaling || 1,
@@ -244,10 +243,10 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
                 return {
                     top : top === 'center' ?
                         (parentElement.height - (canvasElement.height * scaling.width)) / 2 :
-                        giant.UnitUtils.parseDimension(top, parentElement && parentElement.height) || 0,
+                        $canvas.UnitUtils.parseDimension(top, parentElement && parentElement.height) || 0,
                     left: left === 'center' ?
                         (parentElement.width - (canvasElement.width * scaling.height)) / 2 :
-                        giant.UnitUtils.parseDimension(left, parentElement && parentElement.width) || 0
+                        $canvas.UnitUtils.parseDimension(left, parentElement && parentElement.width) || 0
                 };
             },
 
@@ -304,7 +303,7 @@ giant.postpone(giant, 'Canvas', function (ns, className) {
             },
 
             /**
-             * @returns {candystore.Canvas}
+             * @returns {$canvas.Canvas}
              */
             render: function () {
                 this._applyDimensions();

@@ -1,18 +1,17 @@
-/*global giant */
-giant.postpone(giant, 'CanvasUtils', function () {
+$oop.postpone($canvas, 'CanvasUtils', function () {
     "use strict";
 
-    var base = giant.Base,
+    var base = $oop.Base,
         self = base.extend();
 
     /**
      * @class
-     * @extends giant.Base
+     * @extends $oop.Base
      */
-    giant.CanvasUtils = self
-        .addMethods(/** @lends giant.CanvasUtils */{
+    $canvas.CanvasUtils = self
+        .addMethods(/** @lends $canvas.CanvasUtils */{
             /**
-             * @param {giant.Canvas} canvas
+             * @param {$canvas.Canvas} canvas
              * @param {string} rgb
              */
             fillWithColor: function (canvas, rgb) {
@@ -29,7 +28,7 @@ giant.postpone(giant, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {giant.Canvas} canvas
+             * @param {$canvas.Canvas} canvas
              * @param {HTMLElement} imageElement
              */
             drawImage: function (canvas, imageElement) {
@@ -45,7 +44,7 @@ giant.postpone(giant, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {giant.Canvas} canvas
+             * @param {$canvas.Canvas} canvas
              * @param {number} hue
              */
             makeMonochrome: function (canvas, hue) {
@@ -62,8 +61,8 @@ giant.postpone(giant, 'CanvasUtils', function () {
 
                 for (var i = 0; i < imageDataBuffer.length; i += 4) {
                     // setting hue to specified value on all pixels
-                    hsv = giant.ColorUtils.rgbToHsv(imageDataBuffer[i], imageDataBuffer[i + 1], imageDataBuffer[i + 2]);
-                    rgb = giant.ColorUtils.hsvToRgb(hue, hsv.s, hsv.v);
+                    hsv = $canvas.ColorUtils.rgbToHsv(imageDataBuffer[i], imageDataBuffer[i + 1], imageDataBuffer[i + 2]);
+                    rgb = $canvas.ColorUtils.hsvToRgb(hue, hsv.s, hsv.v);
 
                     imageDataBuffer[i] = rgb.r;
                     imageDataBuffer[i + 1] = rgb.g;
@@ -74,7 +73,7 @@ giant.postpone(giant, 'CanvasUtils', function () {
             },
 
             /**
-             * @param {giant.Canvas} canvas
+             * @param {$canvas.Canvas} canvas
              * @param {number[]} overlayRgb
              * @param {number} alpha
              */

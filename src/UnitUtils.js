@@ -1,23 +1,22 @@
-/*global giant, app */
-giant.postpone(giant, 'UnitUtils', function () {
+$oop.postpone($canvas, 'UnitUtils', function () {
     "use strict";
 
-    var base = giant.Base,
+    var base = $oop.Base,
         self = base.extend();
 
     /**
      * @class
-     * @extends giant.Base
+     * @extends $oop.Base
      */
-    giant.UnitUtils = self
-        .addConstants(/** @lends giant.UnitUtils */{
+    $canvas.UnitUtils = self
+        .addConstants(/** @lends $canvas.UnitUtils */{
             /**
              * @type {RegExp}
              * @constant
              */
             RE_PERCENTAGE: /^\s*(\d+(?:\.\d+)?)%\s*$/
         })
-        .addMethods(/** @lends giant.UnitUtils# */{
+        .addMethods(/** @lends $canvas.UnitUtils# */{
             /**
              * @param {string|number} dimension
              * @param {number} parentDimension
