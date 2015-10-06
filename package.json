@@ -1,6 +1,6 @@
 {
     "name"           : "giant-canvas",
-    "version"        : "0.0.6",
+    "version"        : "0.0.7",
     "description"    : "Canvas widgets",
     "keywords"       : [
         "widgets",
@@ -14,8 +14,8 @@
         "url" : "git://github.com/danstocker/giant-canvas.git"
     },
     "dependencies"   : {
-        "giant" : "~0.1.0",
-        "jquery": "~2.1.0",
+        "giant" : "~0.2.0",
+        "jquery": "^2.1.4",
         "q"     : "^1.4.0"
     },
     "devDependencies": {
