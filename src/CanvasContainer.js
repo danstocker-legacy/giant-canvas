@@ -110,14 +110,14 @@ $oop.postpone($canvas, 'CanvasContainer', function (ns, className) {
              * @ignore
              */
             onBackgroundLoad: function () {
-                return this.updateCanvasDebouncer.runDebounced(16);
+                return this.updateCanvasDebouncer.schedule(16);
             },
 
             /**
              * @ignore
              */
             onAttributeChange: function () {
-                return this.updateCanvasDebouncer.runDebounced(16);
+                return this.updateCanvasDebouncer.schedule(16);
             }
         });
 });
